@@ -42,12 +42,12 @@
 <header role="banner">
     <div class="container">
         <div id="site-title" class="two columns">
-            <?php echo link_to_home_page(option('site_title'), array('target' => '_blank')); ?>
+            <?php echo link_to_home_page(__(option('site_title')), array('target' => '_blank')); ?>
         </div>
 
         <nav>
             <?php echo common('global-nav'); ?>
-            
+
             <ul id="user-nav">
             <?php if ($user = current_user()): ?>
                 <?php
