@@ -7,19 +7,23 @@
             ),
             array(
                 'label' => __('Items'),
-                'uri' => url('items')
+                'uri' => url('items'),
+                'resource' => 'Items'
             ),
             array(
                 'label' => __('Collections'),
-                'uri' => url('collections')
+                'uri' => url('collections'),
+                'resource' => 'Collections'
             ),
             array(
                 'label' => __('Item Types'),
-                'uri' => url('item-types')
+                'uri' => url('item-types'),
+                'resource' => 'ItemTypes'
             ),
             array(
                 'label' => __('Tags'),
-                'uri' => url('tags')
+                'uri' => url('tags'),
+                'resource' => 'Tags'
             )
         );
         $nav = nav($mainNav, 'admin_navigation_main');
@@ -32,5 +36,5 @@
         <li><a href="#" tabindex="0"><?php echo $title; ?></a>
         <?php echo $nav->setUlClass('dropdown'); ?>
         </li>
-    </ul>    
+    </ul>
 </nav>

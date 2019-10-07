@@ -60,16 +60,25 @@ class Omeka_Application_Resource_Acl extends Zend_Application_Resource_ResourceA
 
         // Define allow rules for everyone.
 
-        // Everyone can view and browse these resources.
-        $acl->allow(null, array('Items', 'ItemTypes', 'Tags', 'Collections', 'Search',
-                                'ElementSets', 'Elements'),
-                    array('index', 'browse', 'show'));
-        // Everyone can view an item's tags and use the item search.
-        $acl->allow(null, array('Items'), array('tags', 'search'));
-        // Everyone can view files.
-        $acl->allow(null, 'Files', 'show');
         // Non-authenticated users can access the upgrade script, for logistical reasons.
         $acl->allow(null, 'Upgrade');
+
+        // Since this site is private,
+        // only authenticated users can view and browse these resources.
+        $acl->allow(['super','admin','contributor','researcher'],
+                    array('Items', 'Search', 'Elements'),
+                    array('index', 'browse', 'show'));
+        // Authenticated users can view files.
+        $acl->allow(['super','admin','contributor','researcher'], 'Files', 'show');
+        // Authenticated users can use the item search.
+        $acl->allow(['super','admin','contributor','researcher'], array('Items'), array('search'));
+
+        // Only admin can view these ressources
+        $acl->allow(['super','admin'],
+                                array('Tags', 'Collections', 'ItemTypes', 'ElementSets'),
+                                array('index', 'browse', 'show'));
+        // Only admins can can view an item's tags
+        $acl->allow(['super','admin'], array('Items'), array('tags'));
 
         // Deny privileges from admin users
         $acl->deny('admin', array('Settings', 'Plugins', 'Themes', 'ElementSets',
@@ -89,19 +98,19 @@ class Omeka_Application_Resource_Acl extends Zend_Application_Resource_ResourceA
         $acl->allow('super');
         // Researchers can view and search items and collections that are not public.
         $acl->allow('researcher', array('Items', 'Collections', 'Search'), 'showNotPublic');
-        // Contributors can add and tag items, edit or delete their own items, and see
+        // Contributors can add (but not tag) items, edit or delete their own items, and see
         // their items that are not public.
-        $acl->allow('contributor', 'Items', array('add', 'tag', 'batch-edit', 'batch-edit-save',
+        $acl->allow('contributor', 'Items', array('add', /*'tag',*/ 'batch-edit', 'batch-edit-save',
                                                   'change-type', 'delete-confirm', 'editSelf',
                                                   'deleteSelf', 'showSelfNotPublic'));
         // Contributors can edit their own files.
         $acl->allow('contributor', 'Files', 'editSelf');
         // Contributors have access to tag autocomplete.
-        $acl->allow('contributor', 'Tags', array('autocomplete'));
-        // Contributors can add collections, edit or delete their own collections, and
+        //$acl->allow('contributor', 'Tags', array('autocomplete'));
+        // Contributors CANNOT add collections, edit or delete their own collections, and
         // see their collections that are not public.
-        $acl->allow('contributor', 'Collections', array('add', 'delete-confirm', 'editSelf',
-                                                       'deleteSelf', 'showSelfNotPublic'));
+        //$acl->allow('contributor', 'Collections', array('add', 'delete-confirm', 'editSelf',
+        //                                               'deleteSelf', 'showSelfNotPublic'));
         $acl->allow('contributor', 'Elements', 'element-form');
 
         // Define deny rules.
