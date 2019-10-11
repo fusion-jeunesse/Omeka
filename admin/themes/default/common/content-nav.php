@@ -8,7 +8,7 @@
             array(
                 'label' => __('Items'),
                 'uri' => url('items'),
-                'resource' => 'Items'
+                //'resource' => 'Items'
             ),
             array(
                 'label' => __('Collections'),

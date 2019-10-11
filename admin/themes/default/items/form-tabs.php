@@ -22,16 +22,13 @@ foreach ($elementSets as $key => $elementSet) {
     }
 }
 
-// Only show tabs that oughta be shown
-$bootstrap = Zend_Registry::get('bootstrap');
-$currentUser = $bootstrap->getResource('CurrentUser');
-$acl = $bootstrap->getResource('Acl');
 
 ob_start();
 require 'files-form.php';
 $tabs['Files'] = ob_get_contents();
 ob_clean();
-if($acl->isAllowed($currentUser, $item, 'tag')) {
+#if(is_allowed($item, 'tag')) { # can't assert
+if(is_allowed('Items', 'tags')) {
     require 'tag-form.php';
     $tabs['Tags'] = ob_get_contents();
 }

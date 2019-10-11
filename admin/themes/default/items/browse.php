@@ -56,8 +56,8 @@ echo item_search_filters();
             <tr class="item <?php if(++$key%2==1) echo 'odd'; else echo 'even'; ?>">
                 <?php $id = metadata('item', 'id'); ?>
 
-                <?php if (is_allowed($item, 'edit') || is_allowed($item, 'tag')): ?>
                 <td class="batch-edit-check">
+                  <?php if (is_allowed($item, 'edit') || is_allowed($item, 'tag')): ?>
                     <input type="checkbox" name="items[]" value="<?php echo $id; ?>"
                         aria-label="<?php echo html_escape(
                             __('Select item "%s"',
@@ -65,8 +65,8 @@ echo item_search_filters();
                             )
                         ); ?>"
                     >
+                  <?php endif; ?>
                 </td>
-                <?php endif; ?>
 
                 <?php if ($item->featured): ?>
                 <td class="item-info featured">

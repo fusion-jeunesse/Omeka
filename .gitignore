@@ -45,5 +45,6 @@
 .project
 .settings/
 
-# Windows .bat files
+# Local development stuff
 *.bat
+/.db_backup/

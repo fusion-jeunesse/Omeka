@@ -77,8 +77,8 @@ class Omeka_Application_Resource_Acl extends Zend_Application_Resource_ResourceA
         $acl->allow(['super','admin'],
                                 array('Tags', 'Collections', 'ItemTypes', 'ElementSets'),
                                 array('index', 'browse', 'show'));
-        // Only admins can can view an item's tags
-        $acl->allow(['super','admin'], array('Items'), array('tags'));
+        // Only admins and contributors can view an item's tags
+        $acl->allow(['super','admin','contributor'], array('Items'), array('tags'));
 
         // Deny privileges from admin users
         $acl->deny('admin', array('Settings', 'Plugins', 'Themes', 'ElementSets',
@@ -98,15 +98,18 @@ class Omeka_Application_Resource_Acl extends Zend_Application_Resource_ResourceA
         $acl->allow('super');
         // Researchers can view and search items and collections that are not public.
         $acl->allow('researcher', array('Items', 'Collections', 'Search'), 'showNotPublic');
-        // Contributors can add (but not tag) items, edit or delete their own items, and see
+        // Contributors can add items, edit or delete their own items, and see
         // their items that are not public.
         $acl->allow('contributor', 'Items', array('add', /*'tag',*/ 'batch-edit', 'batch-edit-save',
                                                   'change-type', 'delete-confirm', 'editSelf',
                                                   'deleteSelf', 'showSelfNotPublic'));
+        // Contributors can tag their own content
+        ## no effect
+        #$acl->allow('contributor', 'Items', 'tag', new Omeka_Acl_Assert_Ownership);
         // Contributors can edit their own files.
         $acl->allow('contributor', 'Files', 'editSelf');
         // Contributors have access to tag autocomplete.
-        //$acl->allow('contributor', 'Tags', array('autocomplete'));
+        $acl->allow('contributor', 'Tags', array('autocomplete'));
         // Contributors CANNOT add collections, edit or delete their own collections, and
         // see their collections that are not public.
         //$acl->allow('contributor', 'Collections', array('add', 'delete-confirm', 'editSelf',
